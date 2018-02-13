@@ -24,7 +24,6 @@ ignore = (p) -> rule p, (-> {})
 
 # we'll convert this to use generics once we have it working
 destructure = (expressions) ->
-  console.log JSON.stringify expressions, null, 2
   px = []
   for expression in expressions
     if isString expression
