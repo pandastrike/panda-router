@@ -12,6 +12,8 @@ testDestructure = (template, url, target) ->
     f = destructure parse template
     assert.deepEqual (f url), target
 
+# ((destructure parse "{/foo,bar}{?baz*}") "/abc/def?g=123&h=456")
+
 do ->
 
   print await test "Panda Router", [

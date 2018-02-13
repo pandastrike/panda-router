@@ -53,6 +53,7 @@ testDestructure = function (template, url, target) {
 };
 
 _asyncToGenerator(function* () {
+  // ((destructure parse "{/foo,bar}{?baz*}") "/abc/def?g=123&h=456")
   return (0, _amen.print)((yield (0, _amen.test)("Panda Router", [(0, _amen.test)("Template Parser", [testTemplate("/foo/bar?baz=42", ["/foo/bar?baz=42"]), testTemplate("/{foo}/bar?baz=42", ["/", {
     variables: [{
       name: "foo"
