@@ -1,13 +1,14 @@
 {
   "name": "panda-router",
   "version": "1.0.0",
-  "description": "",
+  "description":
+    "Match and destructure URLs based on RFC 6570 for URL templates",
   "main": "build/npm/src/index.js",
   "scripts": {
     "test": "gulp npm:test"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["router", "url", "RFC 6750", "destructure"],
+  "author": "Dan Yoder <dan@pandastrike.com>",
   "license": "MIT",
   "dependencies": {
     "fairmont-helpers": "^3.3.2",
