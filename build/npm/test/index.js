@@ -12,9 +12,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var destructure, parse, testDestructure, testTemplate;
+var Router, destructure, parse, testDestructure, testTemplate;
 
-({ parse, destructure } = require("../src/index"));
+({ parse, destructure, Router } = require("../src/index"));
 
 testTemplate = function (template, target) {
   return (0, _amen.test)(template, function () {
@@ -129,5 +129,41 @@ _asyncToGenerator(function* () {
       g: "123",
       h: "456"
     }
+  })]), (0, _amen.test)("Router", [(0, _amen.test)("basic test", function () {
+    var _rec5 = new _powerAssertRecorder(),
+        _rec6 = new _powerAssertRecorder(),
+        _rec7 = new _powerAssertRecorder();
+
+    var match, router;
+    router = Router.create();
+    router.add({
+      template: "/foo{/bar}",
+      data: "A"
+    });
+    router.add({
+      template: "{/foo,bar}",
+      data: "B"
+    });
+    match = router.match("/abc/def");
+    _powerAssert2.default.equal(true, _rec5._expr(_rec5._capt(_rec5._capt(match, "arguments/1/left") != null, "arguments/1"), {
+      content: "assert.equal(true, match != null)",
+      filepath: "index.coffee",
+      line: 135
+    }));
+    return _powerAssert2.default.deepEqual(_rec6._expr(_rec6._capt(match, "arguments/0"), {
+      content: "assert.deepEqual(match, { data: \"B\", bindings: { foo: \"abc\", bar: \"def\" } })",
+      filepath: "index.coffee",
+      line: 136
+    }), _rec7._expr(_rec7._capt({
+      data: "B",
+      bindings: _rec7._capt({
+        foo: "abc",
+        bar: "def"
+      }, "arguments/1/properties/1/value")
+    }, "arguments/1"), {
+      content: "assert.deepEqual(match, { data: \"B\", bindings: { foo: \"abc\", bar: \"def\" } })",
+      filepath: "index.coffee",
+      line: 136
+    }));
   })])])));
 })();

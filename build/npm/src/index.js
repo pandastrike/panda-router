@@ -21,3 +21,12 @@ Object.defineProperty(exports, "destructure", {
     return _destructure.destructure;
   }
 });
+
+var _router = require("./router");
+
+Object.defineProperty(exports, "Router", {
+  enumerable: true,
+  get: function () {
+    return _router.Router;
+  }
+});

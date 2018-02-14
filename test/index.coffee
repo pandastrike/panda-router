@@ -1,7 +1,7 @@
 import assert from "assert"
 import {print, test} from "amen"
 
-{parse, destructure} = require "../src/index"
+{parse, destructure, Router} = require "../src/index"
 
 testTemplate = (template, target) ->
   test template, ->
@@ -115,6 +115,31 @@ do ->
         baz:
           g: "123"
           h: "456"
+
+    ]
+
+    test "Router", [
+
+      test "basic test", ->
+        
+        router = Router.create()
+
+        router.add
+          template: "/foo{/bar}"
+          data: "A"
+
+        router.add
+          template: "{/foo,bar}"
+          data: "B"
+
+        match = router.match "/abc/def"
+        assert.equal true, match?
+        assert.deepEqual match,
+          data: "B"
+          bindings:
+            foo: "abc"
+            bar: "def"
+
 
     ]
   ]
