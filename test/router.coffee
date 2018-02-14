@@ -60,7 +60,7 @@ testRouter = (test) ->
           h: "456"
 
     $fail "/abc?def=123"
-    
+
   ]
 
 export {testRouter}

@@ -1,6 +1,6 @@
 # Panda Router
 
-Destructure URLs based on RFC 6570 for URL templates:
+Match and destructure URLs based on RFC 6570 for URL templates:
 
 ```coffee
 import {Router} from "panda-router"
