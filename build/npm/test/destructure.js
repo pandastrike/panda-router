@@ -60,12 +60,12 @@ exports.testDestructure = testDestructure = function (test) {
     bar: "def",
     g: "123",
     h: "456"
-  }), $pass("{/foo,bar}{?baz*}", "/abc/def?g=123&h=456", {
+  }), $pass("{/foo,bar}{?baz*}", "/abc/def?g=123&h=4-5-6", {
     foo: "abc",
     bar: "def",
     baz: {
       g: "123",
-      h: "456"
+      h: "4-5-6"
     }
   })];
 };

@@ -9,9 +9,12 @@ var _pandaGrammar = require("panda-grammar");
 
 var _fairmontMultimethods = require("fairmont-multimethods");
 
-var $all, assign, define, destructure, hasModifier, ignore, isArray, isEither, isExpanded, isModifier, isNotModified, isObject, isOperator, isPath, isQuery, isString, spread;
+var $all, assign, define, destructure, hasModifier, ignore, isArray, isEither, isExpanded, isModifier, isNotModified, isObject, isOperator, isPath, isQuery, isString, spread, word;
 
 ({ isString, isArray, isObject } = require("fairmont-helpers"));
+
+// define word in this context
+word = (0, _pandaGrammar.re)(/^[\w\-]+/);
 
 // rule to take x=y and return x: y
 assign = function (p) {
@@ -150,25 +153,25 @@ define(destructure, isEither, isArray, function (operator, variables) {
 
 // Variable evaluation for paths: not modified and expanded
 define(destructure, isPath, isNotModified, function (operator, { name }) {
-  return (0, _pandaGrammar.merge)((0, _pandaGrammar.all)((0, _pandaGrammar.tag)(name, _pandaGrammar.word), ignore((0, _pandaGrammar.optional)((0, _pandaGrammar.string)("/")))));
+  return (0, _pandaGrammar.merge)((0, _pandaGrammar.all)((0, _pandaGrammar.tag)(name, word), ignore((0, _pandaGrammar.optional)((0, _pandaGrammar.string)("/")))));
 });
 
 define(destructure, isPath, isExpanded, function (operator, { name }) {
-  return (0, _pandaGrammar.tag)(name, (0, _pandaGrammar.list)((0, _pandaGrammar.string)("/"), _pandaGrammar.word));
+  return (0, _pandaGrammar.tag)(name, (0, _pandaGrammar.list)((0, _pandaGrammar.string)("/"), word));
 });
 
 // Variable evaluation for queries: not modified and expanded
 define(destructure, isQuery, isNotModified, function (operator, { name }) {
-  return (0, _pandaGrammar.merge)((0, _pandaGrammar.all)(assign((0, _pandaGrammar.all)((0, _pandaGrammar.string)(name), (0, _pandaGrammar.string)("="), _pandaGrammar.word)), ignore((0, _pandaGrammar.optional)((0, _pandaGrammar.string)("&")))));
+  return (0, _pandaGrammar.merge)((0, _pandaGrammar.all)(assign((0, _pandaGrammar.all)((0, _pandaGrammar.string)(name), (0, _pandaGrammar.string)("="), word)), ignore((0, _pandaGrammar.optional)((0, _pandaGrammar.string)("&")))));
 });
 
 define(destructure, isQuery, isExpanded, function (operator, { name }) {
-  return (0, _pandaGrammar.tag)(name, (0, _pandaGrammar.merge)((0, _pandaGrammar.list)((0, _pandaGrammar.string)("&"), assign((0, _pandaGrammar.all)(_pandaGrammar.word, (0, _pandaGrammar.string)("="), _pandaGrammar.word)))));
+  return (0, _pandaGrammar.tag)(name, (0, _pandaGrammar.merge)((0, _pandaGrammar.list)((0, _pandaGrammar.string)("&"), assign((0, _pandaGrammar.all)(word, (0, _pandaGrammar.string)("="), word)))));
 });
 
 // Variable evaluation, generic case: not modified only
 define(destructure, isEither, isNotModified, function (operator, { name }) {
-  return (0, _pandaGrammar.tag)(name, _pandaGrammar.word);
+  return (0, _pandaGrammar.tag)(name, word);
 });
 
 exports.destructure = destructure;

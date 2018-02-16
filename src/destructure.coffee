@@ -1,8 +1,11 @@
-import {string, word, list, all, optional,
+import {re, string, list, all, optional,
   rule, tag, merge, grammar} from "panda-grammar"
 
 {isString, isArray, isObject} = require "fairmont-helpers"
 import {Method} from "fairmont-multimethods"
+
+# define word in this context
+word = re /^[\w\-]+/
 
 # rule to take x=y and return x: y
 assign = (p) -> rule p, ({value: [lhs, ,rhs]}) -> [lhs]: rhs
