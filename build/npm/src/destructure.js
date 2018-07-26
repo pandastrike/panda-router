@@ -9,12 +9,41 @@ var _pandaGrammar = require("panda-grammar");
 
 var _fairmontMultimethods = require("fairmont-multimethods");
 
-var $all, assign, define, destructure, hasModifier, ignore, isArray, isEither, isExpanded, isModifier, isNotModified, isObject, isOperator, isPath, isQuery, isString, spread, word;
+var $all, $set, assign, define, destructure, fallback, hasModifier, ignore, isArray, isEither, isExpanded, isModifier, isNotModified, isObject, isOperator, isPath, isQuery, isString, log, push, set, spread, word;
 
-({ isString, isArray, isObject } = require("fairmont-helpers"));
+({ push, isString, isArray, isObject } = require("fairmont-helpers"));
 
 // define word in this context
 word = (0, _pandaGrammar.re)(/^[\w\-]+/);
+
+// set - like many, but in any order
+set = function (...px) {
+  return function (s) {
+    var i, len, m, p, qx, values;
+    values = [];
+    qx = [];
+    while (px.length > 0) {
+      for (i = 0, len = px.length; i < len; i++) {
+        p = px[i];
+        m = p(s);
+        if (m != null) {
+          push(values, m.value);
+          s = m.rest;
+        } else {
+          push(qx(p));
+        }
+      }
+      px = qx;
+      qx = [];
+    }
+    if (values.length > 0) {
+      return {
+        value: values,
+        rest: s
+      };
+    }
+  };
+};
 
 // rule to take x=y and return x: y
 assign = function (p) {
@@ -32,6 +61,30 @@ ignore = function (p) {
   return (0, _pandaGrammar.rule)(p, function () {
     return {};
   });
+};
+
+fallback = function (value, p) {
+  return function (s) {
+    var m;
+    m = p(s);
+    if ((m != null ? m.value : void 0) != null) {
+      return m;
+    } else {
+      return {
+        value,
+        rest: m.rest
+      };
+    }
+  };
+};
+
+log = function (p) {
+  return function (input) {
+    var output;
+    output = p(input);
+    console.log({ input, output });
+    return output;
+  };
 };
 
 isOperator = function (op) {
@@ -69,6 +122,8 @@ spread = function (f) {
 };
 
 $all = spread(_pandaGrammar.all);
+
+$set = spread(set);
 
 ({ define } = _fairmontMultimethods.Method);
 
@@ -128,7 +183,7 @@ define(destructure, isPath, isArray, function (operator, variables) {
 });
 
 define(destructure, isQuery, isArray, function (operator, variables) {
-  return (0, _pandaGrammar.merge)((0, _pandaGrammar.all)(ignore((0, _pandaGrammar.string)("?")), (0, _pandaGrammar.merge)($all(function () {
+  return (0, _pandaGrammar.merge)(fallback([{}], (0, _pandaGrammar.optional)((0, _pandaGrammar.all)(ignore((0, _pandaGrammar.string)("?")), (0, _pandaGrammar.merge)($set(function () {
     var i, len, results, variable;
     results = [];
     for (i = 0, len = variables.length; i < len; i++) {
@@ -136,7 +191,7 @@ define(destructure, isQuery, isArray, function (operator, variables) {
       results.push(destructure(operator, variable));
     }
     return results;
-  }()))));
+  }()))))));
 });
 
 define(destructure, isEither, isArray, function (operator, variables) {

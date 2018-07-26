@@ -1,16 +1,47 @@
 import {re, string, list, all, optional,
   rule, tag, merge, grammar} from "panda-grammar"
 
-{isString, isArray, isObject} = require "fairmont-helpers"
+{push, isString, isArray, isObject} = require "fairmont-helpers"
 import {Method} from "fairmont-multimethods"
 
 # define word in this context
 word = re /^[\w\-]+/
 
+# set - like many, but in any order
+set = (px...) ->
+  (s) ->
+    values = []
+    qx = []
+    while px.length > 0
+      for p in px
+        m = p s
+        if m?
+          push values, m.value
+          s = m.rest
+        else
+          push qx p
+      px = qx
+      qx = []
+    if values.length > 0
+      value: values, rest: s
+
 # rule to take x=y and return x: y
 assign = (p) -> rule p, ({value: [lhs, ,rhs]}) -> [lhs]: rhs
   # we ignore by returning an empty merge object
 ignore = (p) -> rule p, (-> {})
+fallback = (value, p) ->
+  (s) ->
+    m = p s
+    if m?.value?
+      m
+    else
+      {value, rest: m.rest}
+
+log = (p) ->
+  (input) ->
+    output = p input
+    console.log {input, output}
+    output
 
 isOperator = (op) -> (operator) -> operator == op
 isPath = isOperator "/"
@@ -27,6 +58,7 @@ isNotModified = isModifier undefined
 # along with the multiple levels of merge all / $all below
 spread = (f) -> (ax) -> f ax...
 $all = spread all
+$set = spread set
 
 {define} = Method
 destructure = Method.create
@@ -68,8 +100,8 @@ define destructure, isPath, isArray, (operator, variables) ->
         destructure operator, variable
 
 define destructure, isQuery, isArray, (operator, variables) ->
-  merge all (ignore string "?"),
-    merge $all do ->
+  merge fallback [{}], optional all (ignore string "?"),
+    merge $set do ->
       for variable in variables
         destructure operator, variable
 

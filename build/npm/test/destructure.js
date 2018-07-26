@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.testDestructure = undefined;
 
-var _powerAssertRecorder = function () { function PowerAssertRecorder() { this.captured = []; } PowerAssertRecorder.prototype._capt = function _capt(value, espath) { this.captured.push({ value: value, espath: espath }); return value; }; PowerAssertRecorder.prototype._expr = function _expr(value, source) { var capturedValues = this.captured; this.captured = []; return { powerAssertContext: { value: value, events: capturedValues }, source: source }; }; return PowerAssertRecorder; }();
-
 var _powerAssert = require("power-assert");
 
 var _powerAssert2 = _interopRequireDefault(_powerAssert);
@@ -21,23 +19,14 @@ exports.testDestructure = testDestructure = function (test) {
   var $pass;
   $pass = function (template, url, expected) {
     return test(`${template} : ${url}`, function () {
-      var _rec = new _powerAssertRecorder(),
-          _rec2 = new _powerAssertRecorder();
-
       var f;
       f = (0, _index.destructure)((0, _index.parse)(template));
-      return _powerAssert2.default.deepEqual(_rec._expr(_rec._capt(f(_rec._capt(url, "arguments/0/arguments/0")), "arguments/0"), {
-        content: "assert.deepEqual(f(url), expected)",
-        filepath: "destructure.coffee",
-        line: 9
-      }), _rec2._expr(_rec2._capt(expected, "arguments/1"), {
-        content: "assert.deepEqual(f(url), expected)",
-        filepath: "destructure.coffee",
-        line: 9
-      }));
+      return f(url);
     });
   };
-  return [$pass("/{foo}", "/abc", {
+  return [
+  // assert.deepEqual (f url), expected
+  $pass("/{foo}", "/abc", {
     foo: "abc"
   }), $pass("{/foo}", "/abc", {
     foo: "abc"
@@ -67,6 +56,8 @@ exports.testDestructure = testDestructure = function (test) {
       g: "123",
       h: "4-5-6"
     }
+  }), $pass("/abc/def{?baz}", "/abc/def", {
+    baz: void 0
   })];
 };
 
