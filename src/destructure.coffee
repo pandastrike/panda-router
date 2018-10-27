@@ -1,8 +1,8 @@
 import {re, string, list, all, optional,
   rule, tag, merge, grammar} from "panda-grammar"
 
-{push, isString, isArray, isObject} = require "fairmont-helpers"
-import {Method} from "fairmont-multimethods"
+{push, isString, isArray, isObject} = require "panda-parchment"
+import {Method} from "panda-generics"
 
 # define word in this context
 word = re /^[\w\-]+/
