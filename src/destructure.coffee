@@ -19,7 +19,7 @@ set = (px...) ->
           push values, m.value
           s = m.rest
         else
-          push qx p
+          push qx, p
       px = qx
       qx = []
     if values.length > 0

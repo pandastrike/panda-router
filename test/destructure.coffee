@@ -21,9 +21,14 @@ testDestructure = (test) ->
 
     $pass "{/foo*}", "/abc/def", foo: [ "abc", "def" ]
 
-    $pass "/foo{?bar,baz}",
-      "/foo?bar=123&baz=456",
-      bar: "123", baz: "456"
+    $pass "/foo{?bar,baz}", "/foo?bar=123&baz=456",
+      bar: "123",
+      baz: "456"
+
+    # reverse the order of the parameters
+    $pass "/foo{?bar,baz}", "/foo?baz=456&bar=123",
+      bar: "123",
+      baz: "456"
 
     $pass "{/foo,bar}{?baz}", "/abc/def?baz=123",
       foo: "abc"
