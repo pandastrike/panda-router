@@ -20,8 +20,13 @@ set = (px...) ->
           s = m.rest
         else
           push qx, p
-      px = qx
-      qx = []
+      # confirm that we matched at least one p
+      # (otw qx will have them all too)
+      if px.length > qx.length
+        px = qx
+        qx = []
+      else
+        break
     if values.length > 0
       value: values, rest: s
 

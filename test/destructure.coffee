@@ -30,6 +30,14 @@ testDestructure = (test) ->
       bar: "123",
       baz: "456"
 
+    # only one of two - first argument only
+    $pass "/foo{?bar,baz}", "/foo?bar=123",
+      bar: "123"
+
+    # only one of two - second argument only
+    $pass "/foo{?bar,baz}", "/foo?baz=456",
+      baz: "456"
+
     $pass "{/foo,bar}{?baz}", "/abc/def?baz=123",
       foo: "abc"
       bar: "def"
@@ -40,6 +48,7 @@ testDestructure = (test) ->
       bar: "def"
       g: "123"
       h: "456"
+
 
     $pass "{/foo,bar}{?baz*}", "/abc/def?g=123&h=4-5-6",
       foo: "abc"
