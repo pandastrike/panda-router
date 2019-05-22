@@ -1,6 +1,6 @@
 {
   "name": "panda-router",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Match and destructure URLs based on RFC 6570 for URL templates",
   "main": "build/npm/src/index.js",
   "scripts": {

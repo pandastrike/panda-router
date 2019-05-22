@@ -5,26 +5,27 @@ import {re, string, list, all, optional,
 import {Method} from "panda-generics"
 
 # define word in this context
-word = re /^[\w\-]+/
+word = re /^[\w\-\+]+/
 
 # set - like many, but in any order
 set = (px...) ->
   (s) ->
     values = []
-    qx = []
-    while px.length > 0
-      for p in px
+    qx = [ px... ]
+    rx = []
+    while qx.length > 0
+      for p in qx
         m = p s
         if m?
           push values, m.value
           s = m.rest
         else
-          push qx, p
+          push rx, p
       # confirm that we matched at least one p
-      # (otw qx will have them all too)
-      if px.length > qx.length
-        px = qx
-        qx = []
+      # (otw we get an infinite loop)
+      if qx.length > rx.length
+        qx = rx
+        rx = []
       else
         break
     if values.length > 0

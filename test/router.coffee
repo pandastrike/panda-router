@@ -50,6 +50,11 @@ testRouter = (test) ->
       bindings:
         baz: "123"
 
+    $pass "/abc/def?baz=123+456",
+      data: "C"
+      bindings:
+        baz: "123+456"
+
     $pass "/abc/def?g=123&h=456",
       data: "D"
       bindings:

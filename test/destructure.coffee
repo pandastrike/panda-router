@@ -6,8 +6,7 @@ testDestructure = (test) ->
   $pass = (template, url, expected) ->
     test "#{template} : #{url}", ->
       f = destructure parse template
-      f url
-      # assert.deepEqual (f url), expected
+      assert.deepEqual (f url), expected
 
   [
 
@@ -38,6 +37,11 @@ testDestructure = (test) ->
     $pass "/foo{?bar,baz}", "/foo?baz=456",
       baz: "456"
 
+    # + delimited value
+    $pass "/foo{?bar,baz}", "/foo?baz=123+456&bar=789",
+      bar: "789"
+      baz: "123+456"
+
     $pass "{/foo,bar}{?baz}", "/abc/def?baz=123",
       foo: "abc"
       bar: "def"
@@ -57,8 +61,7 @@ testDestructure = (test) ->
         g: "123"
         h: "4-5-6"
 
-    $pass "/abc/def{?baz}", "/abc/def",
-      baz: undefined
+    $pass "/abc/def{?baz}", "/abc/def", {}
 
   ]
 
