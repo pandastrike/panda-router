@@ -5,7 +5,7 @@ import {re, string, list, all, optional,
 import {Method} from "panda-generics"
 
 # define word in this context
-word = re /^[\w\-\+]+/
+word = re /^[\w\-\+\%]+/
 
 # set - like many, but in any order
 set = (px...) ->

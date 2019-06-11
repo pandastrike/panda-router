@@ -63,6 +63,12 @@ testDestructure = (test) ->
 
     $pass "/abc/def{?baz}", "/abc/def", {}
 
+    $pass "{/foo,bar}{?baz*}", "/abc/def?g=123&h=4%205%206",
+      foo: "abc"
+      bar: "def"
+      baz:
+        g: "123"
+        h: "4%205%206"
   ]
 
 export {testDestructure}
