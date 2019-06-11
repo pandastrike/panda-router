@@ -67,14 +67,14 @@ testDestructure = (test) ->
       bar: "def"
       baz:
         g: "123"
-        h: "4%205%206"
+        h: "4 5 6"
 
     $pass "{/foo,bar}{?baz*}", "/abc/def?g=123.&h=4%205%206",
       foo: "abc"
       bar: "def"
       baz:
         g: "123."
-        h: "4%205%206"
+        h: "4 5 6"
 
   ]
 
