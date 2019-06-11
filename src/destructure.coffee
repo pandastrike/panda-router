@@ -4,8 +4,15 @@ import {re, string, list, all, optional,
 {push, isString, isArray, isObject} = require "panda-parchment"
 import {Method} from "panda-generics"
 
+log = (p) ->
+  (input) ->
+    output = p input
+    console.log {input, output}
+    output
+
 # define word in this context
-word = re /^[\w\-\+\%]+/
+# TODO break this down into path and query since they allow different chars
+word = re /^[^\:\/\#\?\&\=\[\]\@]+/
 
 # set - like many, but in any order
 set = (px...) ->
@@ -42,12 +49,6 @@ fallback = (value, p) ->
       m
     else
       {value, rest: m.rest}
-
-log = (p) ->
-  (input) ->
-    output = p input
-    console.log {input, output}
-    output
 
 isOperator = (op) -> (operator) -> operator == op
 isPath = isOperator "/"
