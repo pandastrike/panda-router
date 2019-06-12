@@ -130,12 +130,12 @@ define destructure, isPath, isExpanded, (operator, {name}) ->
 # Variable evaluation for queries: not modified and expanded
 
 define destructure, isQuery, isNotModified, (operator, {name}) ->
-  merge all (assign (all (string name), (string "="), word)),
+  merge all (assign (all (string name), (string "="), (optional word))),
     (ignore optional string "&")
 
 define destructure, isQuery, isExpanded, (operator, {name}) ->
   tag name,
-    merge list (string "&"), (assign (all word, (string "="), word))
+    merge list (string "&"), (assign (all word, (string "="), (optional word)))
 
 # Variable evaluation, generic case: not modified only
 

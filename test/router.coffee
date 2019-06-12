@@ -35,6 +35,7 @@ testRouter = (test) ->
   $fail = (url) ->
     test "no match: #{url}", ->
       match = router.match url
+      console.log {match}
       assert.equal false, match?
 
   [
