@@ -39,10 +39,11 @@ set = (px...) ->
       value: values, rest: s
 
 # rule to take x=y and return x: y
-decode = (s) -> decodeURIComponent s
+decode = (s) -> decodeURIComponent s if s?
 
 assign = (p) -> rule p, ({value: [lhs, ,rhs]}) -> [decode lhs]: decode rhs
-  # we ignore by returning an empty merge object
+
+# we ignore by returning an empty merge object
 ignore = (p) -> rule p, (-> {})
 fallback = (value, p) ->
   (s) ->
