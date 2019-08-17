@@ -2,7 +2,7 @@ import {re, string, list, all, optional,
   rule, tag, merge, grammar} from "panda-grammar"
 
 {push, isString, isArray, isObject} = require "panda-parchment"
-import {Method} from "panda-generics"
+import Method from "panda-generics"
 
 log = (p) ->
   (input) ->
@@ -72,6 +72,8 @@ $set = spread set
 
 {define} = Method
 destructure = Method.create
+  name: "destructure"
+  description: "Destructures URL template"
   default: -> throw "expected destructuring error: #{arguments}"
 
 # Known error conditions
