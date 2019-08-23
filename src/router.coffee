@@ -5,8 +5,8 @@ class Route
 
   @create: (description) -> new Route description
 
-  constructor: ({template, @data}) ->
-    @match = destructure parse template
+  constructor: ({@template, @data}) ->
+    @match = destructure parse @template
 
 class Router
 

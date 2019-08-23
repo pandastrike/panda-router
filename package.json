@@ -1,7 +1,8 @@
 {
   "name": "panda-router",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Match and destructure URLs based on RFC 6570 for URL templates",
+  "repository": "https://github.com/pandastrike/panda-router",
   "main": "build/npm/src/index.js",
   "scripts": {
     "test": "p9k npm:test"
@@ -17,14 +18,14 @@
   "dependencies": {
     "panda-generics": "^4.2.0",
     "panda-grammar": "^1.1.0",
-    "panda-parchment": "^4.2.0"
+    "panda-parchment": "^4.2.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-env": "^7.5.5",
     "amen": "^2.0.5",
-    "coffeescript": "^2.2.1",
-    "panda-9000": "^4.2.0",
-    "panda-builder": "^3.1.0"
+    "coffeescript": "^2.4.1",
+    "panda-9000": "^4.4.0",
+    "panda-builder": "^3.2.1"
   },
   "engine": "node >= 8.10"
 }
