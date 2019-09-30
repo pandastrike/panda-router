@@ -11,6 +11,8 @@ testParser = (test) ->
 
     $pass "/foo/bar?baz=42", [ "/foo/bar?baz=42" ]
 
+    $pass "/foo-bar/baz", [ "/foo-bar/baz" ]
+
     $pass "/{foo}/bar?baz=42",
       [ "/", { variables: [ name: "foo" ] }, "/bar?baz=42" ]
 
