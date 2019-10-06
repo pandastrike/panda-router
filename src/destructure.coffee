@@ -12,7 +12,11 @@ log = (p) ->
 
 # define word in this context
 # TODO break this down into path and query since they allow different chars
-word = re /^[^\:\/\#\?\&\=\[\]\@]+/
+_word = re /^[^\:\/\#\?\&\=\[\]\@]+/
+
+word = (s) ->
+  if (m = _word s)?
+    value: (decodeURIComponent m.value), rest: m.rest
 
 # set - like many, but in any order
 set = (px...) ->
@@ -38,10 +42,7 @@ set = (px...) ->
     if values.length > 0
       value: values, rest: s
 
-# rule to take x=y and return x: y
-decode = (s) -> decodeURIComponent s if s?
-
-assign = (p) -> rule p, ({value: [lhs, ,rhs]}) -> [decode lhs]: decode rhs
+assign = (p) -> rule p, ({value: [lhs, ,rhs]}) -> [lhs]: rhs
 
 # we ignore by returning an empty merge object
 ignore = (p) -> rule p, (-> {})

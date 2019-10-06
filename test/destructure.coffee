@@ -91,6 +91,9 @@ testDestructure = (test) ->
               Tannhäuser Gate. All those moments will be lost
               in time, like tears…in…rain. Time to die."
 
+
+    $pass "/home/{nickname}/edit", "/home/danielyoder%40gmail.com/edit",
+      nickname: "danielyoder@gmail.com"
   ]
 
 export {testDestructure}
