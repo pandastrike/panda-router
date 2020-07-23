@@ -1,7 +1,7 @@
 import {re, string, list, all, optional,
   rule, tag, merge, grammar} from "panda-grammar"
 
-{push, isString, isArray, isObject} = require "panda-parchment"
+{push, isString, isArray, isObject, toJSON} = require "panda-parchment"
 import Method from "panda-generics"
 
 log = (p) ->
@@ -75,7 +75,7 @@ $set = spread set
 destructure = Method.create
   name: "destructure"
   description: "Destructures URL template"
-  default: -> throw "expected destructuring error: #{arguments}"
+  default: -> throw "expected destructuring error: #{toJSON arguments, null, 2}"
 
 # Known error conditions
 
