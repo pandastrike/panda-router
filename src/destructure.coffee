@@ -1,4 +1,4 @@
-import {re, string, list, all, optional,
+import {re, string, list, all, any, optional,
   rule, tag, merge, grammar} from "panda-grammar"
 
 {push, isString, isArray, isObject, toJSON} = require "panda-parchment"
@@ -10,13 +10,19 @@ log = (p) ->
     console.log {input, output}
     output
 
-# define word in this context
-# TODO break this down into path and query since they allow different chars
-_word = re /^[^\:\/\#\?\&\=\[\]\@]+/
+# from https://tools.ietf.org/html/rfc3986#section-3.3
+# and https://tools.ietf.org/html/rfc3986#section-3.4
 
-word = (s) ->
-  if (m = _word s)?
-    value: (decodeURIComponent m.value), rest: m.rest
+component = (p) ->
+  (s) ->
+    if (m = p s)?
+      value: (decodeURIComponent m.value), rest: m.rest
+
+pathComponent = component re /^[\w\-\.\~\%\!\$\&\'\(\)\*\+\,\;\=\:\@]+/
+# we don't include & and = because we're parsing the parameter value here
+queryComponent = component re /^[\w\-\.\~\%\!\$\'\(\)\*\+\,\;\:\@\/\?]+/
+
+word = re /^\w+/
 
 # set - like many, but in any order
 set = (px...) ->
@@ -126,24 +132,25 @@ define destructure, isEither, isArray, (operator, variables) ->
 # Variable evaluation for paths: not modified and expanded
 
 define destructure, isPath, isNotModified, (operator, {name}) ->
-  merge all (tag name, word), (ignore optional string "/")
+  merge all (tag name, pathComponent), (ignore optional string "/")
 
 define destructure, isPath, isExpanded, (operator, {name}) ->
-  tag name, (list (string "/"), word)
+  tag name, (list (string "/"), pathComponent)
 
 # Variable evaluation for queries: not modified and expanded
+assignment = (p) ->
+  assign (all p, (string "="), (optional queryComponent))
 
 define destructure, isQuery, isNotModified, (operator, {name}) ->
-  merge all (assign (all (string name), (string "="), (optional word))),
-    (ignore optional string "&")
+  merge all (assignment string name), (ignore optional string "&")
 
 define destructure, isQuery, isExpanded, (operator, {name}) ->
-  tag name,
-    merge list (string "&"), (assign (all word, (string "="), (optional word)))
+  tag name, merge list (string "&"), (assignment word)
+
 
 # Variable evaluation, generic case: not modified only
 
 define destructure, isEither, isNotModified, (operator, {name}) ->
-  tag name, word
+  tag name, pathComponent
 
 export {destructure}

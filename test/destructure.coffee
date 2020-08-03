@@ -76,6 +76,13 @@ testDestructure = (test) ->
         g: "123."
         h: "4 5 6"
 
+    $pass "{/foo,bar}{?baz*}", "/abc/def?g=123.&h=4/5/6",
+      foo: "abc"
+      bar: "def"
+      baz:
+        g: "123."
+        h: "4/5/6"
+
     $pass "/home/{nickname}/edit{?displayName,blurb,media}",
       "/home/dan/edit?displayName=Dan&blurb=I%E2%80%99ve%20seen%20things%20\
         you%20people%20wouldn%E2%80%99t%20believe.%20Attack%20ships%20on%20\
