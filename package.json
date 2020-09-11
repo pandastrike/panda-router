@@ -1,6 +1,6 @@
 {
   "name": "@pandastrike/router",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Match and destructure URLs based on RFC 6570 for URL templates",
   "repository": "https://github.com/pandastrike/panda-router",
   "main": "build/src/index.js",
