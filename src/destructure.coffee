@@ -145,7 +145,7 @@ define destructure, isQuery, isNotModified, (operator, {name}) ->
   merge all (assignment string name), (ignore optional string "&")
 
 define destructure, isQuery, isExpanded, (operator, {name}) ->
-  tag name, merge list (string "&"), (assignment word)
+  tag name, merge list (string "&"), (assignment queryComponent)
 
 
 # Variable evaluation, generic case: not modified only

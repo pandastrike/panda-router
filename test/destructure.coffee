@@ -83,12 +83,12 @@ testDestructure = (test) ->
         g: "123."
         h: "4/5/6"
 
-    $pass "{/foo,bar}{?baz*}", "/abc/def?g.hi=123.&h.jk=4/5/6",
+    $pass "{/foo,bar}{?baz*}", "/abc/def?data.alpha=123.&data.beta=4/5/6",
       foo: "abc"
       bar: "def"
       baz:
-        "g.hi": "123."
-        "h.jk": "4/5/6"
+        "data.alpha": "123."
+        "data.beta": "4/5/6"
 
     $pass "/home/{nickname}/edit{?displayName,blurb,media}",
       "/home/dan/edit?displayName=Dan&blurb=I%E2%80%99ve%20seen%20things%20\
