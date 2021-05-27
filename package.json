@@ -34,6 +34,5 @@
     "@dashkite/amen-console": "^0.0.1",
     "@dashkite/genie": "^0.4.1",
     "@dashkite/genie-presets": "^0.1.12"
-  },
-  "main:coffee": "src/index.coffee"
+  }
 }
