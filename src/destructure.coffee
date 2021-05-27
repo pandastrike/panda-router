@@ -1,8 +1,7 @@
 import {re, string, list, all, any, optional,
   rule, tag, merge, grammar} from "panda-grammar"
 
-{push, isString, isArray, isObject, toJSON} = require "panda-parchment"
-import Method from "panda-generics"
+import {push, isString, isArray, isObject, generic} from "@dashkite/joy"
 
 log = (p) ->
   (input) ->
@@ -77,80 +76,78 @@ spread = (f) -> (ax) -> f ax...
 $all = spread all
 $set = spread set
 
-{define} = Method
-destructure = Method.create
+destructure = generic
   name: "destructure"
   description: "Destructures URL template"
-  default: -> throw "expected destructuring error: #{toJSON arguments, null, 2}"
 
 # Known error conditions
 
-define destructure, isEither, hasModifier, ->
+generic destructure, isEither, hasModifier, ->
   throw "unsupported modifier: requires operation"
 
-define destructure, isString, hasModifier, (operator, {modifier}) ->
+generic destructure, isString, hasModifier, (operator, {modifier}) ->
   throw "unsupported modifier: #{modifier}"
 
-define destructure, isString, isArray, (operator) ->
+generic destructure, isString, isArray, (operator) ->
   throw "unsupported operator: #{operator}"
 
 # Top-level invocation
 
-define destructure, isArray, (expressions) ->
+generic destructure, isArray, (expressions) ->
   grammar merge $all do ->
     for expression in expressions
       destructure expression
 
 # String literals
 
-define destructure, isString, (expression) -> ignore string expression
+generic destructure, isString, (expression) -> ignore string expression
 
 # Expression: delegate to specializations
 
-define destructure, isObject, ({operator, variables}) ->
+generic destructure, isObject, ({operator, variables}) ->
   destructure operator, variables
 
 # Operations: path, query, and generic
 
-define destructure, isPath, isArray, (operator, variables) ->
+generic destructure, isPath, isArray, (operator, variables) ->
   merge all (ignore string "/"),
     merge $all do ->
       for variable in variables
         destructure operator, variable
 
-define destructure, isQuery, isArray, (operator, variables) ->
+generic destructure, isQuery, isArray, (operator, variables) ->
   merge fallback [{}], optional all (ignore string "?"),
     merge $set do ->
       for variable in variables
         destructure operator, variable
 
-define destructure, isEither, isArray, (operator, variables) ->
+generic destructure, isEither, isArray, (operator, variables) ->
   merge $all do ->
     for variable in variables
       destructure operator, variable
 
 # Variable evaluation for paths: not modified and expanded
 
-define destructure, isPath, isNotModified, (operator, {name}) ->
+generic destructure, isPath, isNotModified, (operator, {name}) ->
   merge all (tag name, pathComponent), (ignore optional string "/")
 
-define destructure, isPath, isExpanded, (operator, {name}) ->
+generic destructure, isPath, isExpanded, (operator, {name}) ->
   tag name, (list (string "/"), pathComponent)
 
 # Variable evaluation for queries: not modified and expanded
 assignment = (p) ->
   assign (all p, (string "="), (optional queryComponent))
 
-define destructure, isQuery, isNotModified, (operator, {name}) ->
+generic destructure, isQuery, isNotModified, (operator, {name}) ->
   merge all (assignment string name), (ignore optional string "&")
 
-define destructure, isQuery, isExpanded, (operator, {name}) ->
+generic destructure, isQuery, isExpanded, (operator, {name}) ->
   tag name, merge list (string "&"), (assignment word)
 
 
 # Variable evaluation, generic case: not modified only
 
-define destructure, isEither, isNotModified, (operator, {name}) ->
+generic destructure, isEither, isNotModified, (operator, {name}) ->
   tag name, pathComponent
 
 export {destructure}

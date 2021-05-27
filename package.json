@@ -2,32 +2,38 @@
   "name": "@pandastrike/router",
   "version": "3.0.0",
   "description": "Match and destructure URLs based on RFC 6570 for URL templates",
-  "repository": "https://github.com/pandastrike/panda-router",
-  "main": "build/src/index.js",
-  "main:coffee": "src/index.coffee",
-  "files": [
-    "build/src",
-    "src"
-  ],
-  "scripts": {
-    "test": "genie test"
-  },
   "keywords": [
     "router",
     "url",
     "RFC 6750",
     "destructure"
   ],
-  "author": "Dan Yoder <dan@pandastrike.com>",
+  "repository": "https://github.com/pandastrike/panda-router",
   "license": "SEE LICENSE IN LICENSE.md",
+  "author": "Dan Yoder <dan@pandastrike.com>",
+  "exports": {
+    ".": {
+      "import": "./build/import/src/index.js",
+      "node": "./build/node/src/index.js"
+    }
+  },
+  "main": "build/node/src/index.js",
+  "files": [
+    "build/import/src",
+    "build/node/src"
+  ],
+  "scripts": {
+    "test": "genie test"
+  },
   "dependencies": {
-    "@dashkite/brick": "^0.2.0",
-    "@dashkite/genie": "0.0.1",
-    "panda-generics": "^6.0.0",
-    "panda-grammar": "^2.0.0",
-    "panda-parchment": "^5.0.0"
+    "@dashkite/joy": "^0.3.6",
+    "panda-grammar": "^2.0.0"
   },
   "devDependencies": {
-    "amen": "^3.0.0"
-  }
+    "@dashkite/amen": "^0.1.2",
+    "@dashkite/amen-console": "^0.0.1",
+    "@dashkite/genie": "^0.4.1",
+    "@dashkite/genie-presets": "^0.1.12"
+  },
+  "main:coffee": "src/index.coffee"
 }

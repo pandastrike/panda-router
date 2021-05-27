@@ -1,4 +1,4 @@
-import assert from "assert"
+import assert from "assert/strict"
 import {destructure, parse} from "../src/index"
 
 testDestructure = (test) ->
@@ -101,6 +101,12 @@ testDestructure = (test) ->
 
     $pass "/home/{nickname}/edit", "/home/danielyoder%40gmail.com/edit",
       nickname: "danielyoder@gmail.com"
+
+    $pass "/content{/path*}", "/content/home/description.json",
+      path: [ "home", "description.json"]
+
+    $pass "{/path*}", "/",
+      path: []
   ]
 
 export {testDestructure}

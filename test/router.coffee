@@ -1,4 +1,4 @@
-import assert from "assert"
+import assert from "assert/strict"
 import {Router} from "../src/index"
 
 testRouter = (test) ->
