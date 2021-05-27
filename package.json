@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@dashkite/joy": "^0.3.6",
-    "panda-grammar": "^2.0.0"
+    "panda-grammar": "^2.1.1"
   },
   "devDependencies": {
     "@dashkite/amen": "^0.1.2",
