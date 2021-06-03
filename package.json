@@ -13,14 +13,11 @@
   "author": "Dan Yoder <dan@pandastrike.com>",
   "exports": {
     ".": {
-      "import": "./build/import/src/index.js",
-      "node": "./build/node/src/index.js"
+      "browser": "./build/browser/src/index.js"
     }
   },
-  "main": "build/node/src/index.js",
   "files": [
-    "build/import/src",
-    "build/node/src"
+    "build/browser/src"
   ],
   "scripts": {
     "test": "genie test"
