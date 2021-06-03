@@ -26,13 +26,13 @@
     "test": "genie test"
   },
   "dependencies": {
-    "@dashkite/joy": "^0.3.6",
+    "@dashkite/joy": "^0.3.7",
     "panda-grammar": "^2.1.2"
   },
   "devDependencies": {
     "@dashkite/amen": "^0.1.2",
     "@dashkite/amen-console": "^0.0.1",
-    "@dashkite/genie": "^0.4.1",
-    "@dashkite/genie-presets": "^0.1.12"
+    "@dashkite/genie": "^0.5.2",
+    "@dashkite/genie-presets": "^0.2.2"
   }
 }
