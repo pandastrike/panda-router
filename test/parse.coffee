@@ -71,6 +71,27 @@ testParser = (test) ->
           variables: [ { name: "baz", modifier: "*" } ]
           }
         ]
+
+    $pass "example.org/foo/bar?baz=42", [ "example.org/foo/bar?baz=42" ]
+
+    $pass "example.org/foo/bar{?baz*}",
+      [
+        "example.org/foo/bar",
+        {
+          operator: "?"
+          variables: [ { name: "baz", modifier: "*" } ]
+          }
+        ]
+
+    $pass "https://example.org/foo/bar{?baz*}",
+      [
+        "https://example.org/foo/bar",
+        {
+          operator: "?"
+          variables: [ { name: "baz", modifier: "*" } ]
+          }
+        ]
+
   ]
 
 export {testParser}

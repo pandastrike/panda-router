@@ -114,6 +114,10 @@ testDestructure = (test) ->
 
     $pass "{/path*}", "/",
       path: []
+
+    $pass "example.org/{foo}", "example.org/abc", foo: "abc"
+
+    $pass "https://example.org/{foo}", "https://example.org/abc", foo: "abc"
   ]
 
 export {testDestructure}
